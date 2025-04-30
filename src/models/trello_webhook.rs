@@ -44,6 +44,8 @@ pub struct ActionEntities {
     pub list_after : Option<TrelloList>,
     #[serde(alias = "label")]
     pub label : Option<TrelloList>,
+    #[serde(alias = "member")]
+    pub member : Option<TrelloList>,
 }
 
 #[derive(Debug, Deserialize)]

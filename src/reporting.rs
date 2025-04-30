@@ -59,10 +59,13 @@ impl DiscordReporter {
         if let Some(display) = &event.action.display {
             if let Some(entities) = &display.entities {
                 if let Some(listf) = &entities.list_after {
-                    desc = format!("Marked {} as {}", card_name.clone().unwrap(), listf.text);
+                    desc = format!("Marked {} as `{}`", card_name.clone().unwrap(), listf.text);
                 }
                 if let Some(listf) = &entities.label {
-                    desc = format!("Added {} to {}", listf.text, card_name.clone().unwrap());
+                    desc = format!("Added {} to `{}`", listf.text, card_name.clone().unwrap());
+                }
+                if let Some(listf) = &entities.member {
+                    desc = format!("Added {} to `{}`", listf.text, card_name.clone().unwrap());
                 }
             }
         }
