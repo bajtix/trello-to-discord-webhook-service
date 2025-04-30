@@ -35,8 +35,9 @@ impl DiscordReporter {
     }
 
     pub async fn report(&self, event: Event) -> Result<()> {
+        debug!("New event {:?}", event);
         if Self::should_skip_event(&event) {
-            debug!("Skipping event {:?}", event);
+            debug!("Skipping event!");
             return Ok(());
         }
         let mut card_name: Option<String> = None;
@@ -56,6 +57,8 @@ impl DiscordReporter {
             title = String::from(Self::get_embed_title(&event));
         }
 
+
+
         if let Some(display) = &event.action.display {
             if let Some(entities) = &display.entities {
                 if let Some(listf) = &entities.list_after {
@@ -65,7 +68,7 @@ impl DiscordReporter {
                     desc = format!("Added {} to `{}`", listf.text, card_name.clone().unwrap());
                 }
                 if let Some(listf) = &entities.member {
-                    desc = format!("Added {} to `{}`", listf.text, card_name.clone().unwrap());
+                    desc = format!("**Member:** {}", listf.text);
                 }
             }
         }
