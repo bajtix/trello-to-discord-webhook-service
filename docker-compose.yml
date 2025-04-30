@@ -1,6 +1,6 @@
 services:
   trello-to-discord-webhook-service:
-    image: ghcr.io/riichi/trello-to-discord-webhook-service:main
+    build: ./
     volumes:
       - "./config.toml:/app/config.toml"
     restart: always
