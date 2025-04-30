@@ -45,11 +45,34 @@ impl DiscordReporter {
             card_name = Some(card.name.clone().unwrap_or(String::from("**Unknown**")));
             card_url = Some(format!("{}/c/{}", TRELLO_ROOT_URL, card.short_link));
         }
+
+        let mut title = String::new();
+        let mut desc = String::new();
+
+        if let Some(ref name) = card_name {
+            title = name.clone();
+            desc = String::from(Self::get_embed_title(&event));
+        } else {
+            title = String::from(Self::get_embed_title(&event));
+        }
+
+        if let Some(display) = &event.action.display {
+            if let Some(entities) = &display.entities {
+                if let Some(listf) = &entities.list_after {
+                    desc = format!("Marked {} as {}", card_name.clone().unwrap(), listf.text);
+                }
+                if let Some(listf) = &entities.label {
+                    desc = format!("Added {} to {}", listf.text, card_name.clone().unwrap());
+                }
+            }
+        }
+
+
         let discord_event = DiscordWebhookEvent {
             embeds: vec![DiscordEmbed {
-                title: Some(String::from(Self::get_embed_title(&event))),
+                title: Some(title),
                 _type: Some(String::from(TYPE_RICH)),
-                description: card_name,
+                description: Some(desc),
                 url: card_url,
                 color: Some(COLOR_GREEN),
                 fields: vec![],

@@ -33,6 +33,22 @@ pub struct ActionData {
 pub struct ActionDisplay {
     #[serde(alias = "translationKey")]
     pub translation_key: Option<String>,
+    pub entities : Option<ActionEntities>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ActionEntities {
+    #[serde(alias = "listBefore")]
+    pub list_before : Option<TrelloList>,
+    #[serde(alias = "listAfter")]
+    pub list_after : Option<TrelloList>,
+    #[serde(alias = "label")]
+    pub label : Option<TrelloList>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct TrelloList {
+    pub text : String,
 }
 
 #[derive(Debug, Deserialize)]
